@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # Base de datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: myjobs-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: myjobs_db
+      MYSQL_USER: myjobs_user
+      MYSQL_PASSWORD: myjobs_password_2024
+      MYSQL_ROOT_PASSWORD: root_password_2024
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - myjobs-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend Spring Boot
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: myjobs-backend
+    restart: unless-stopped
+    environment:
+      WAIT_HOSTS: mysql:3306
+      WAIT_TIMEOUT: 60
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/myjobs_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: myjobs_user
+      SPRING_DATASOURCE_PASSWORD: myjobs_password_2024
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - myjobs-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:8080/api/auth/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Frontend Angular
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: myjobs-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - myjobs-network
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  myjobs-network:
+    driver: bridge
