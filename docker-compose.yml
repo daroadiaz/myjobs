@@ -7,10 +7,8 @@ services:
     container_name: myjobs-mysql
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: myjobs_db
-      MYSQL_USER: myjobs_user
-      MYSQL_PASSWORD: myjobs_password_2024
-      MYSQL_ROOT_PASSWORD: root_password_2024
+      MYSQL_DATABASE: myjobs
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
@@ -18,37 +16,119 @@ services:
     networks:
       - myjobs-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
 
-  # Backend Spring Boot
-  backend:
+  # API Gateway
+  api-gateway:
     build:
-      context: ./backend
+      context: ./backend/api-gateway
       dockerfile: Dockerfile
-    container_name: myjobs-backend
+    container_name: myjobs-api-gateway
     restart: unless-stopped
-    environment:
-      WAIT_HOSTS: mysql:3306
-      WAIT_TIMEOUT: 60
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/myjobs_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: myjobs_user
-      SPRING_DATASOURCE_PASSWORD: myjobs_password_2024
     ports:
       - "8080:8080"
+    depends_on:
+      - auth-service
+      - user-service
+      - job-service
+      - worker-service
+      - review-service
+    networks:
+      - myjobs-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+
+  # Auth Service
+  auth-service:
+    build:
+      context: ./backend/auth-service
+      dockerfile: Dockerfile
+    container_name: myjobs-auth-service
+    restart: unless-stopped
     depends_on:
       mysql:
         condition: service_healthy
     networks:
       - myjobs-network
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:8080/api/auth/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 60s
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myjobs?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+
+  # User Service
+  user-service:
+    build:
+      context: ./backend/user-service
+      dockerfile: Dockerfile
+    container_name: myjobs-user-service
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - myjobs-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myjobs?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+
+  # Job Service
+  job-service:
+    build:
+      context: ./backend/job-service
+      dockerfile: Dockerfile
+    container_name: myjobs-job-service
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - myjobs-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myjobs?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - USER_SERVICE_URL=http://user-service:8082
+
+  # Worker Service
+  worker-service:
+    build:
+      context: ./backend/worker-service
+      dockerfile: Dockerfile
+    container_name: myjobs-worker-service
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - myjobs-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myjobs?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - USER_SERVICE_URL=http://user-service:8082
+      - REVIEW_SERVICE_URL=http://review-service:8085
+
+  # Review Service
+  review-service:
+    build:
+      context: ./backend/review-service
+      dockerfile: Dockerfile
+    container_name: myjobs-review-service
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - myjobs-network
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myjobs?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - USER_SERVICE_URL=http://user-service:8082
 
   # Frontend Angular
   frontend:
@@ -60,12 +140,9 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - backend
+      - api-gateway
     networks:
       - myjobs-network
-    environment:
-      - NGINX_HOST=localhost
-      - NGINX_PORT=80
 
 volumes:
   mysql_data:

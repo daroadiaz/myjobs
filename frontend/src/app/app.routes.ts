@@ -15,6 +15,7 @@ export const routes: Routes = [
     path: 'register',
     loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent)
   },
+  // Ofertas Laborales
   {
     path: 'job-offers',
     loadComponent: () => import('./pages/job-offers/job-offers.component').then(m => m.JobOffersComponent)
@@ -24,6 +25,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/job-offer-detail/job-offer-detail.component').then(m => m.JobOfferDetailComponent)
   },
   {
+    path: 'create-job-offer',
+    canActivate: [authGuard, roleGuard(['EMPLEADOR'])],
+    loadComponent: () => import('./pages/create-job-offer/create-job-offer.component').then(m => m.CreateJobOfferComponent)
+  },
+  // Servicios de Trabajadores
+  {
     path: 'worker-services',
     loadComponent: () => import('./pages/worker-services/worker-services.component').then(m => m.WorkerServicesComponent)
   },
@@ -31,6 +38,12 @@ export const routes: Routes = [
     path: 'worker-services/:id',
     loadComponent: () => import('./pages/worker-service-detail/worker-service-detail.component').then(m => m.WorkerServiceDetailComponent)
   },
+  {
+    path: 'create-service',
+    canActivate: [authGuard, roleGuard(['TRABAJADOR'])],
+    loadComponent: () => import('./pages/create-service/create-service.component').then(m => m.CreateServiceComponent)
+  },
+  // Dashboard y Perfil
   {
     path: 'dashboard',
     canActivate: [authGuard],
@@ -41,6 +54,22 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./pages/profile/profile.component').then(m => m.ProfileComponent)
   },
+  {
+    path: 'edit-profile',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/edit-profile/edit-profile.component').then(m => m.EditProfileComponent)
+  },
+  {
+    path: 'user/:id',
+    loadComponent: () => import('./pages/user-profile/user-profile.component').then(m => m.UserProfileComponent)
+  },
+  // Gestión de Aplicaciones
+  {
+    path: 'manage-applications',
+    canActivate: [authGuard, roleGuard(['EMPLEADOR'])],
+    loadComponent: () => import('./pages/manage-applications/manage-applications.component').then(m => m.ManageApplicationsComponent)
+  },
+  // Moderación
   {
     path: 'moderator',
     canActivate: [authGuard, roleGuard(['MODERADOR'])],
