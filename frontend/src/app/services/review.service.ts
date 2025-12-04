@@ -20,19 +20,31 @@ export class ReviewService {
     return this.http.get<Review>(`${this.apiUrl}/${id}`);
   }
 
-  getAllReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(this.apiUrl);
-  }
-
   getReviewsByUserId(userId: number): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.apiUrl}/user/${userId}`);
+  }
+
+  getReviewsByReviewer(reviewerId: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiUrl}/reviewer/${reviewerId}`);
+  }
+
+  getReviewsByJobOffer(jobOfferId: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiUrl}/job-offer/${jobOfferId}`);
+  }
+
+  getReviewsByService(serviceId: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.apiUrl}/service/${serviceId}`);
   }
 
   getUserAverageRating(userId: number): Observable<number> {
     return this.http.get<number>(`${this.apiUrl}/user/${userId}/average`);
   }
 
-  updateReview(id: number, review: Review): Observable<Review> {
+  getUserReviewCount(userId: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/user/${userId}/count`);
+  }
+
+  updateReview(id: number, review: Partial<Review>): Observable<Review> {
     return this.http.put<Review>(`${this.apiUrl}/${id}`, review);
   }
 

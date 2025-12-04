@@ -37,8 +37,12 @@ export class JobOfferService {
     return this.http.get<JobOffer[]>(`${this.apiUrl}/search`, { params });
   }
 
-  getPendingJobOffers(): Observable<JobOffer[]> {
-    return this.http.get<JobOffer[]>(`${this.apiUrl}/pending`);
+  getJobOffersByCategory(category: string): Observable<JobOffer[]> {
+    return this.http.get<JobOffer[]>(`${this.apiUrl}/category/${category}`);
+  }
+
+  getAllCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/categories`);
   }
 
   updateJobOffer(id: number, jobOffer: Partial<JobOffer>): Observable<JobOffer> {
@@ -49,10 +53,7 @@ export class JobOfferService {
     return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`);
   }
 
-  moderateJobOffer(id: number, status: JobStatus, comments?: string): Observable<JobOffer> {
-    const params = new HttpParams()
-      .set('status', status)
-      .set('comments', comments || '');
-    return this.http.patch<JobOffer>(`${this.apiUrl}/${id}/moderate`, null, { params });
+  updateJobOfferStatus(id: number, status: JobStatus): Observable<JobOffer> {
+    return this.http.patch<JobOffer>(`${this.apiUrl}/${id}/status`, { status });
   }
 }

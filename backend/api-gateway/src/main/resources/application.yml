@@ -41,11 +41,19 @@ spring:
           filters:
             - StripPrefix=1
 
-        # Job Service Routes
-        - id: job-service
+        # Job Offers Routes
+        - id: job-offers-service
           uri: http://job-service:8083
           predicates:
-            - Path=/api/job-offers/**, /api/job-applications/**
+            - Path=/api/job-offers/**
+          filters:
+            - StripPrefix=1
+
+        # Job Applications Routes
+        - id: job-applications-service
+          uri: http://job-service:8083
+          predicates:
+            - Path=/api/job-applications/**
           filters:
             - StripPrefix=1
 

@@ -37,8 +37,12 @@ export class WorkerServiceService {
     return this.http.get<WorkerService[]>(`${this.apiUrl}/search`, { params });
   }
 
-  getPendingWorkerServices(): Observable<WorkerService[]> {
-    return this.http.get<WorkerService[]>(`${this.apiUrl}/pending`);
+  getWorkerServicesByCategory(category: string): Observable<WorkerService[]> {
+    return this.http.get<WorkerService[]>(`${this.apiUrl}/category/${category}`);
+  }
+
+  getAllCategories(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/categories`);
   }
 
   updateWorkerService(id: number, service: Partial<WorkerService>): Observable<WorkerService> {
@@ -49,10 +53,7 @@ export class WorkerServiceService {
     return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`);
   }
 
-  moderateWorkerService(id: number, status: ServiceStatus, comments?: string): Observable<WorkerService> {
-    const params = new HttpParams()
-      .set('status', status)
-      .set('comments', comments || '');
-    return this.http.patch<WorkerService>(`${this.apiUrl}/${id}/moderate`, null, { params });
+  updateWorkerServiceStatus(id: number, status: ServiceStatus): Observable<WorkerService> {
+    return this.http.patch<WorkerService>(`${this.apiUrl}/${id}/status`, { status });
   }
 }
