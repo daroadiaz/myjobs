@@ -72,11 +72,11 @@ import { ApplyJobDialogComponent } from '../../components/apply-job-dialog/apply
                 <h3><mat-icon>payments</mat-icon> Salario</h3>
                 <p class="salary">
                   @if (jobOffer.salaryMin && jobOffer.salaryMax) {
-                    ${{ jobOffer.salaryMin | number }} - ${{ jobOffer.salaryMax | number }}
+                    {{ jobOffer.salaryMin | currency:'USD':'symbol':'1.0-0' }} - {{ jobOffer.salaryMax | currency:'USD':'symbol':'1.0-0' }}
                   } @else if (jobOffer.salaryMin) {
-                    Desde ${{ jobOffer.salaryMin | number }}
+                    Desde {{ jobOffer.salaryMin | currency:'USD':'symbol':'1.0-0' }}
                   } @else {
-                    Hasta ${{ jobOffer.salaryMax | number }}
+                    Hasta {{ jobOffer.salaryMax | currency:'USD':'symbol':'1.0-0' }}
                   }
                   @if (jobOffer.salaryPeriod) {
                     <span class="period">/ {{ jobOffer.salaryPeriod }}</span>

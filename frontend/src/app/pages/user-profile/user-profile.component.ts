@@ -137,7 +137,7 @@ import { CreateReviewDialogComponent } from '../../components/create-review-dial
                           @if (job.salaryMin || job.salaryMax) {
                             <p class="salary">
                               <mat-icon>payments</mat-icon>
-                              ${{ job.salaryMin || 0 }} - ${{ job.salaryMax || 0 }} / {{ job.salaryPeriod }}
+                              {{ job.salaryMin || 0 | currency:'USD':'symbol':'1.0-0' }} - {{ job.salaryMax || 0 | currency:'USD':'symbol':'1.0-0' }} / {{ job.salaryPeriod }}
                             </p>
                           }
                         </mat-card-content>
@@ -174,7 +174,7 @@ import { CreateReviewDialogComponent } from '../../components/create-review-dial
                           @if (service.priceMin || service.priceMax) {
                             <p class="salary">
                               <mat-icon>payments</mat-icon>
-                              ${{ service.priceMin || 0 }} - ${{ service.priceMax || 0 }} / {{ service.pricePeriod }}
+                              {{ service.priceMin || 0 | currency:'USD':'symbol':'1.0-0' }} - {{ service.priceMax || 0 | currency:'USD':'symbol':'1.0-0' }} / {{ service.pricePeriod }}
                             </p>
                           }
                         </mat-card-content>

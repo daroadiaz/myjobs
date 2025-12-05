@@ -12,6 +12,10 @@ export class JobApplicationService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/job-applications`;
 
+  createJobApplication(application: Partial<JobApplication>): Observable<JobApplication> {
+    return this.http.post<JobApplication>(this.apiUrl, application);
+  }
+
   applyToJob(jobOfferId: number, application: Partial<JobApplication>): Observable<JobApplication> {
     return this.http.post<JobApplication>(`${this.apiUrl}/job-offer/${jobOfferId}`, application);
   }
@@ -24,6 +28,10 @@ export class JobApplicationService {
     return this.http.get<JobApplication[]>(`${this.apiUrl}/my-applications`);
   }
 
+  getApplicationsByEmployer(): Observable<JobApplication[]> {
+    return this.http.get<JobApplication[]>(`${this.apiUrl}/received`);
+  }
+
   getApplicationsForMyJobs(): Observable<JobApplication[]> {
     return this.http.get<JobApplication[]>(`${this.apiUrl}/received`);
   }
@@ -32,12 +40,16 @@ export class JobApplicationService {
     return this.http.get<JobApplication[]>(`${this.apiUrl}/job-offer/${jobOfferId}`);
   }
 
-  updateApplicationStatus(id: number, status: ApplicationStatus): Observable<JobApplication> {
-    return this.http.patch<JobApplication>(`${this.apiUrl}/${id}/status`, { status });
+  updateApplicationStatus(id: number, status: ApplicationStatus, employerComments?: string): Observable<JobApplication> {
+    return this.http.patch<JobApplication>(`${this.apiUrl}/${id}/status`, { status, employerComments });
   }
 
   addEmployerNotes(id: number, notes: string): Observable<JobApplication> {
     return this.http.patch<JobApplication>(`${this.apiUrl}/${id}/notes`, { notes });
+  }
+
+  deleteJobApplication(id: number): Observable<ApiResponse> {
+    return this.http.delete<ApiResponse>(`${this.apiUrl}/${id}`);
   }
 
   withdrawApplication(id: number): Observable<ApiResponse> {

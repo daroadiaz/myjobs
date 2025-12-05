@@ -56,4 +56,12 @@ export class JobOfferService {
   updateJobOfferStatus(id: number, status: JobStatus): Observable<JobOffer> {
     return this.http.patch<JobOffer>(`${this.apiUrl}/${id}/status`, { status });
   }
+
+  getPendingJobOffers(): Observable<JobOffer[]> {
+    return this.http.get<JobOffer[]>(`${this.apiUrl}/pending`);
+  }
+
+  moderateJobOffer(id: number, status: JobStatus, comments?: string): Observable<JobOffer> {
+    return this.http.patch<JobOffer>(`${this.apiUrl}/${id}/moderate`, { status, moderatorComments: comments });
+  }
 }

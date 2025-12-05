@@ -75,11 +75,11 @@ import { AuthService } from '../../services/auth.service';
                 <h3><mat-icon>payments</mat-icon> Precio</h3>
                 <p class="price">
                   @if (service.priceMin && service.priceMax) {
-                    ${{ service.priceMin | number }} - ${{ service.priceMax | number }}
+                    {{ service.priceMin | currency:'USD':'symbol':'1.0-0' }} - {{ service.priceMax | currency:'USD':'symbol':'1.0-0' }}
                   } @else if (service.priceMin) {
-                    Desde ${{ service.priceMin | number }}
+                    Desde {{ service.priceMin | currency:'USD':'symbol':'1.0-0' }}
                   } @else {
-                    Hasta ${{ service.priceMax | number }}
+                    Hasta {{ service.priceMax | currency:'USD':'symbol':'1.0-0' }}
                   }
                   @if (service.pricePeriod) {
                     <span class="period">/ {{ service.pricePeriod }}</span>

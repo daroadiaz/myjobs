@@ -130,7 +130,7 @@ export class ApplyJobDialogComponent {
           });
           this.dialogRef.close(true);
         },
-        error: (error) => {
+        error: (error: any) => {
           this.isSubmitting = false;
           const message = error.error?.message || 'Error al enviar la aplicación';
           this.snackBar.open(message, 'Cerrar', {

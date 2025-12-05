@@ -34,7 +34,7 @@ import { User } from '../../models/user.model';
         <mat-card-header>
           <div mat-card-avatar class="avatar">
             @if (currentUser?.profileImage) {
-              <img [src]="currentUser.profileImage" alt="Avatar">
+              <img [src]="currentUser?.profileImage" alt="Avatar">
             } @else {
               <mat-icon>person</mat-icon>
             }

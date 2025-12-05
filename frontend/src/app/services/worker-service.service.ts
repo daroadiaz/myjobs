@@ -56,4 +56,12 @@ export class WorkerServiceService {
   updateWorkerServiceStatus(id: number, status: ServiceStatus): Observable<WorkerService> {
     return this.http.patch<WorkerService>(`${this.apiUrl}/${id}/status`, { status });
   }
+
+  getPendingWorkerServices(): Observable<WorkerService[]> {
+    return this.http.get<WorkerService[]>(`${this.apiUrl}/pending`);
+  }
+
+  moderateWorkerService(id: number, status: ServiceStatus, comments?: string): Observable<WorkerService> {
+    return this.http.patch<WorkerService>(`${this.apiUrl}/${id}/moderate`, { status, moderatorComments: comments });
+  }
 }

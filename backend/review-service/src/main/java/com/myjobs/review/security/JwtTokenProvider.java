@@ -39,7 +39,7 @@ public class JwtTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.get("userId", Long.class);
+        return Long.parseLong(claims.getSubject());
     }
 
     public String getEmailFromToken(String token) {
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
+        return claims.get("email", String.class);
     }
 
     public String getRoleFromToken(String token) {

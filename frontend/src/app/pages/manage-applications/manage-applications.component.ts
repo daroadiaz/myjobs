@@ -164,12 +164,12 @@ import { JobApplication, ApplicationStatus } from '../../models/job-application.
 
                   <div class="action-buttons">
                     <button mat-raised-button color="primary"
-                      (click)="updateStatus(app, 'ACEPTADA')">
+                      (click)="acceptApplication(app)">
                       <mat-icon>check_circle</mat-icon>
                       Aceptar Candidato
                     </button>
                     <button mat-raised-button color="warn"
-                      (click)="updateStatus(app, 'RECHAZADA')">
+                      (click)="rejectApplication(app)">
                       <mat-icon>cancel</mat-icon>
                       Rechazar
                     </button>
@@ -429,7 +429,7 @@ export class ManageApplicationsComponent implements OnInit {
           this.applications[index] = updated;
           this.filterApplications();
         }
-        const message = status === 'ACEPTADA'
+        const message = status === ApplicationStatus.ACEPTADA
           ? 'Candidato aceptado exitosamente'
           : 'Aplicación rechazada';
         this.snackBar.open(message, 'Cerrar', { duration: 5000 });
@@ -440,5 +440,13 @@ export class ManageApplicationsComponent implements OnInit {
         });
       }
     });
+  }
+
+  acceptApplication(app: JobApplication): void {
+    this.updateStatus(app, ApplicationStatus.ACEPTADA);
+  }
+
+  rejectApplication(app: JobApplication): void {
+    this.updateStatus(app, ApplicationStatus.RECHAZADA);
   }
 }
