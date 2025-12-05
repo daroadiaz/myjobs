@@ -1,0 +1,69 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: false
+            maxAge: 3600
+      routes:
+        - id: auth-service
+          uri: https://auth-service-x6gwhiqdwa-uc.a.run.app
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+        - id: user-service
+          uri: https://user-service-x6gwhiqdwa-uc.a.run.app
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - StripPrefix=1
+        - id: job-offers-service
+          uri: https://job-service-x6gwhiqdwa-uc.a.run.app
+          predicates:
+            - Path=/api/job-offers/**
+          filters:
+            - StripPrefix=1
+        - id: job-applications-service
+          uri: https://job-service-x6gwhiqdwa-uc.a.run.app
+          predicates:
+            - Path=/api/job-applications/**
+          filters:
+            - StripPrefix=1
+        - id: worker-service
+          uri: https://worker-service-x6gwhiqdwa-uc.a.run.app
+          predicates:
+            - Path=/api/worker-services/**
+          filters:
+            - StripPrefix=1
+        - id: review-service
+          uri: https://review-service-x6gwhiqdwa-uc.a.run.app
+          predicates:
+            - Path=/api/reviews/**
+          filters:
+            - StripPrefix=1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
