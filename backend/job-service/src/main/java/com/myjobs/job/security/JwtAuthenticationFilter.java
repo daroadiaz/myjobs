@@ -33,6 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String email = tokenProvider.getEmailFromToken(jwt);
                 String role = tokenProvider.getRoleFromToken(jwt);
 
+                // Usar rol por defecto si no está presente en el token
+                if (role == null || role.isEmpty()) {
+                    role = "USER";
+                }
+
                 UserPrincipal userPrincipal = new UserPrincipal(userId, email, role);
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

@@ -41,8 +41,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/worker-services/health").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/worker-services/**").permitAll()
+                        .requestMatchers("/worker-services/my-services").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/worker-services").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/worker-services/search").permitAll()
                         .requestMatchers(HttpMethod.GET, "/worker-services/categories").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/worker-services/category/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/worker-services/worker/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/worker-services/{id}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
