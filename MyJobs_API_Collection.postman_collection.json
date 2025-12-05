@@ -1,0 +1,1504 @@
+{
+	"info": {
+		"_postman_id": "myjobs-api-collection",
+		"name": "MyJobs API Collection",
+		"description": "Colección completa de endpoints para la API de MyJobs - Portal de Empleos y Servicios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "jobOfferId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "applicationId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "workerServiceId",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "reviewId",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "1. Auth Service",
+			"description": "Endpoints de autenticación y registro de usuarios",
+			"item": [
+				{
+					"name": "Register - TRABAJADOR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"    pm.collectionVariables.set('userId', jsonData.user.id);",
+									"    console.log('Token guardado:', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"trabajador@example.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"Juan\",\n    \"lastName\": \"Pérez\",\n    \"phone\": \"+56912345678\",\n    \"role\": \"TRABAJADOR\",\n    \"location\": \"Santiago, Chile\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Registra un nuevo usuario con rol TRABAJADOR. El token se guarda automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Register - EMPLEADOR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"    pm.collectionVariables.set('userId', jsonData.user.id);",
+									"    console.log('Token guardado:', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"empleador@example.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"María\",\n    \"lastName\": \"González\",\n    \"phone\": \"+56987654321\",\n    \"role\": \"EMPLEADOR\",\n    \"location\": \"Valparaíso, Chile\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Registra un nuevo usuario con rol EMPLEADOR. El token se guarda automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Register - MODERADOR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"    pm.collectionVariables.set('userId', jsonData.user.id);",
+									"    console.log('Token guardado:', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"moderador@example.com\",\n    \"password\": \"password123\",\n    \"firstName\": \"Admin\",\n    \"lastName\": \"Sistema\",\n    \"phone\": \"+56911111111\",\n    \"role\": \"MODERADOR\",\n    \"location\": \"Santiago, Chile\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Registra un nuevo usuario con rol MODERADOR. El token se guarda automáticamente."
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"    pm.collectionVariables.set('userId', jsonData.user.id);",
+									"    console.log('Token guardado:', jsonData.token);",
+									"    console.log('User ID:', jsonData.user.id);",
+									"    console.log('Role:', jsonData.user.role);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"trabajador@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Inicia sesión con un usuario existente. El token JWT se guarda automáticamente en las variables de la colección."
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/validate",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "validate"]
+						},
+						"description": "Valida el token JWT actual y retorna información del usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "health"]
+						},
+						"description": "Verifica el estado del servicio de autenticación."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. User Service",
+			"description": "Endpoints de gestión de usuarios",
+			"item": [
+				{
+					"name": "Get Current User (Me)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "me"]
+						},
+						"description": "Obtiene el perfil del usuario autenticado."
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}"]
+						},
+						"description": "Obtiene un usuario por su ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users (MODERADOR)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["users"]
+						},
+						"description": "Obtiene todos los usuarios. Requiere rol MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Users by Role",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/role/TRABAJADOR",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "role", "TRABAJADOR"]
+						},
+						"description": "Obtiene usuarios por rol. Valores: TRABAJADOR, EMPLEADOR, MODERADOR"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/search?q=juan",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "juan"
+								}
+							]
+						},
+						"description": "Busca usuarios por nombre, apellido o email."
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Juan Carlos\",\n    \"lastName\": \"Pérez López\",\n    \"phone\": \"+56912345678\",\n    \"bio\": \"Profesional con experiencia en desarrollo de software y gestión de proyectos.\",\n    \"location\": \"Santiago Centro, Chile\",\n    \"profileImage\": \"https://example.com/avatar.jpg\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}"]
+						},
+						"description": "Actualiza el perfil de un usuario."
+					},
+					"response": []
+				},
+				{
+					"name": "Toggle User Active (MODERADOR)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}/toggle-active",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}", "toggle-active"]
+						},
+						"description": "Activa/desactiva un usuario. Requiere rol MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (MODERADOR)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "{{userId}}"]
+						},
+						"description": "Elimina un usuario. Requiere rol MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "health"]
+						},
+						"description": "Verifica el estado del servicio de usuarios."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Job Offers",
+			"description": "Endpoints de ofertas de empleo",
+			"item": [
+				{
+					"name": "Get All Active Job Offers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers"]
+						},
+						"description": "Obtiene todas las ofertas de empleo activas. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Job Offer by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/{{jobOfferId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "{{jobOfferId}}"]
+						},
+						"description": "Obtiene una oferta de empleo por ID. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Job Offers (EMPLEADOR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.length > 0) {",
+									"        pm.collectionVariables.set('jobOfferId', jsonData[0].id);",
+									"        console.log('Job Offer ID guardado:', jsonData[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/my-offers",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "my-offers"]
+						},
+						"description": "Obtiene las ofertas del empleador autenticado. Requiere rol EMPLEADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Job Offers by Employer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/employer/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "employer", "{{userId}}"]
+						},
+						"description": "Obtiene ofertas de un empleador específico. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Job Offers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/search?q=desarrollador",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "desarrollador"
+								}
+							]
+						},
+						"description": "Busca ofertas por título, descripción o categoría. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Job Offers by Category",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/category/TECNOLOGIA",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "category", "TECNOLOGIA"]
+						},
+						"description": "Obtiene ofertas por categoría. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Categories",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "categories"]
+						},
+						"description": "Obtiene todas las categorías disponibles. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Job Offer (EMPLEADOR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('jobOfferId', jsonData.id);",
+									"    console.log('Job Offer ID guardado:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Desarrollador Full Stack\",\n    \"description\": \"Buscamos desarrollador Full Stack con experiencia en Angular y Spring Boot para proyecto de e-commerce.\",\n    \"requirements\": \"- 3+ años de experiencia\\n- Angular 15+\\n- Spring Boot 3\\n- MySQL/PostgreSQL\\n- Git\",\n    \"benefits\": \"- Trabajo remoto\\n- Horario flexible\\n- Seguro de salud\\n- Capacitaciones\",\n    \"salary\": 2500000,\n    \"salaryType\": \"MENSUAL\",\n    \"location\": \"Santiago, Chile (Remoto)\",\n    \"category\": \"TECNOLOGIA\",\n    \"jobType\": \"TIEMPO_COMPLETO\",\n    \"experienceLevel\": \"INTERMEDIO\",\n    \"contractType\": \"INDEFINIDO\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/job-offers",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers"]
+						},
+						"description": "Crea una nueva oferta de empleo. Requiere rol EMPLEADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Job Offer (EMPLEADOR/MODERADOR)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Desarrollador Full Stack Senior\",\n    \"description\": \"Buscamos desarrollador Full Stack Senior con experiencia en Angular y Spring Boot para liderar proyecto de e-commerce.\",\n    \"requirements\": \"- 5+ años de experiencia\\n- Angular 15+\\n- Spring Boot 3\\n- MySQL/PostgreSQL\\n- Git\\n- Liderazgo de equipos\",\n    \"benefits\": \"- Trabajo remoto\\n- Horario flexible\\n- Seguro de salud\\n- Capacitaciones\\n- Bono anual\",\n    \"salary\": 3500000,\n    \"salaryType\": \"MENSUAL\",\n    \"location\": \"Santiago, Chile (Remoto)\",\n    \"category\": \"TECNOLOGIA\",\n    \"jobType\": \"TIEMPO_COMPLETO\",\n    \"experienceLevel\": \"SENIOR\",\n    \"contractType\": \"INDEFINIDO\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/{{jobOfferId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "{{jobOfferId}}"]
+						},
+						"description": "Actualiza una oferta de empleo. Requiere rol EMPLEADOR o MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Job Offer Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"PAUSADA\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/{{jobOfferId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "{{jobOfferId}}", "status"]
+						},
+						"description": "Cambia el estado de una oferta. Estados: ACTIVA, PAUSADA, CERRADA, ELIMINADA"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Job Offer (EMPLEADOR/MODERADOR)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/{{jobOfferId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "{{jobOfferId}}"]
+						},
+						"description": "Elimina una oferta de empleo. Requiere rol EMPLEADOR o MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "health"]
+						},
+						"description": "Verifica el estado del servicio de ofertas."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Job Applications",
+			"description": "Endpoints de postulaciones a ofertas de empleo",
+			"item": [
+				{
+					"name": "Get My Applications (TRABAJADOR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.length > 0) {",
+									"        pm.collectionVariables.set('applicationId', jsonData[0].id);",
+									"        console.log('Application ID guardado:', jsonData[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/my-applications",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "my-applications"]
+						},
+						"description": "Obtiene las postulaciones del trabajador autenticado. Requiere rol TRABAJADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Received Applications (EMPLEADOR)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/received",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "received"]
+						},
+						"description": "Obtiene las postulaciones recibidas por el empleador. Requiere rol EMPLEADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Applications by Job Offer (EMPLEADOR/MODERADOR)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/job-offer/{{jobOfferId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "job-offer", "{{jobOfferId}}"]
+						},
+						"description": "Obtiene postulaciones de una oferta específica. Requiere rol EMPLEADOR o MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Application by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/{{applicationId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "{{applicationId}}"]
+						},
+						"description": "Obtiene una postulación por ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Apply to Job (TRABAJADOR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('applicationId', jsonData.id);",
+									"    console.log('Application ID guardado:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"coverLetter\": \"Estimado/a equipo de contratación,\\n\\nMe dirijo a ustedes para expresar mi interés en la posición publicada. Cuento con 5 años de experiencia en desarrollo de software y creo que mis habilidades se alinean perfectamente con los requisitos del puesto.\\n\\nHe trabajado con tecnologías como Angular, Spring Boot y bases de datos relacionales, lo que me ha permitido desarrollar soluciones robustas y escalables.\\n\\nQuedo a su disposición para una entrevista donde pueda explicarles con más detalle mi experiencia y motivación.\\n\\nSaludos cordiales.\",\n    \"resumeUrl\": \"https://drive.google.com/file/d/example/cv-juan-perez.pdf\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/job-offer/{{jobOfferId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "job-offer", "{{jobOfferId}}"]
+						},
+						"description": "Postula a una oferta de empleo. Requiere rol TRABAJADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Application Status (EMPLEADOR/MODERADOR)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"ACEPTADA\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/{{applicationId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "{{applicationId}}", "status"]
+						},
+						"description": "Actualiza el estado de una postulación. Estados: PENDIENTE, ACEPTADA, RECHAZADA, CANCELADA"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Employer Notes (EMPLEADOR)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"notes\": \"Candidato muy calificado. Agendar segunda entrevista con el equipo técnico.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/{{applicationId}}/notes",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "{{applicationId}}", "notes"]
+						},
+						"description": "Agrega notas privadas del empleador a una postulación. Requiere rol EMPLEADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw Application (TRABAJADOR)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/{{applicationId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "{{applicationId}}"]
+						},
+						"description": "Retira una postulación. Requiere rol TRABAJADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "health"]
+						},
+						"description": "Verifica el estado del servicio de postulaciones."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Worker Services",
+			"description": "Endpoints de servicios ofrecidos por trabajadores",
+			"item": [
+				{
+					"name": "Get All Active Services",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services"]
+						},
+						"description": "Obtiene todos los servicios activos. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Service by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/{{workerServiceId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "{{workerServiceId}}"]
+						},
+						"description": "Obtiene un servicio por ID. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Services (TRABAJADOR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.length > 0) {",
+									"        pm.collectionVariables.set('workerServiceId', jsonData[0].id);",
+									"        console.log('Worker Service ID guardado:', jsonData[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/my-services",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "my-services"]
+						},
+						"description": "Obtiene los servicios del trabajador autenticado. Requiere rol TRABAJADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Services by Worker",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/worker/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "worker", "{{userId}}"]
+						},
+						"description": "Obtiene servicios de un trabajador específico. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Search Services",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/search?q=plomeria",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "plomeria"
+								}
+							]
+						},
+						"description": "Busca servicios por título o descripción. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Services by Category",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/category/HOGAR",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "category", "HOGAR"]
+						},
+						"description": "Obtiene servicios por categoría. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Categories",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/categories",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "categories"]
+						},
+						"description": "Obtiene todas las categorías de servicios. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Service (TRABAJADOR)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('workerServiceId', jsonData.id);",
+									"    console.log('Worker Service ID guardado:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Servicio de Plomería Profesional\",\n    \"description\": \"Ofrezco servicios de plomería con más de 10 años de experiencia. Instalación, reparación y mantención de sistemas de agua y gas. Trabajo garantizado.\",\n    \"category\": \"HOGAR\",\n    \"pricePerHour\": 25000,\n    \"location\": \"Santiago, Región Metropolitana\",\n    \"availableDays\": \"Lunes a Sábado\",\n    \"availableHours\": \"08:00 - 18:00\",\n    \"images\": [\n        \"https://example.com/trabajo1.jpg\",\n        \"https://example.com/trabajo2.jpg\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/worker-services",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services"]
+						},
+						"description": "Crea un nuevo servicio. Requiere rol TRABAJADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service (TRABAJADOR/MODERADOR)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Servicio de Plomería Profesional - Premium\",\n    \"description\": \"Ofrezco servicios de plomería premium con más de 10 años de experiencia. Instalación, reparación y mantención de sistemas de agua y gas. Trabajo garantizado. Servicio de emergencia 24/7.\",\n    \"category\": \"HOGAR\",\n    \"pricePerHour\": 30000,\n    \"location\": \"Santiago y alrededores, Región Metropolitana\",\n    \"availableDays\": \"Lunes a Domingo\",\n    \"availableHours\": \"24 horas (emergencias)\",\n    \"images\": [\n        \"https://example.com/trabajo1.jpg\",\n        \"https://example.com/trabajo2.jpg\",\n        \"https://example.com/trabajo3.jpg\"\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/{{workerServiceId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "{{workerServiceId}}"]
+						},
+						"description": "Actualiza un servicio. Requiere rol TRABAJADOR o MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Service Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"PAUSADO\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/{{workerServiceId}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "{{workerServiceId}}", "status"]
+						},
+						"description": "Cambia el estado de un servicio. Estados: ACTIVO, PAUSADO, ELIMINADO"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Service (TRABAJADOR/MODERADOR)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/{{workerServiceId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "{{workerServiceId}}"]
+						},
+						"description": "Elimina un servicio. Requiere rol TRABAJADOR o MODERADOR."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "health"]
+						},
+						"description": "Verifica el estado del servicio de worker services."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. Reviews",
+			"description": "Endpoints de reseñas y calificaciones",
+			"item": [
+				{
+					"name": "Get Reviews by User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/user/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "user", "{{userId}}"]
+						},
+						"description": "Obtiene las reseñas recibidas por un usuario. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reviews by Reviewer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/reviewer/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "reviewer", "{{userId}}"]
+						},
+						"description": "Obtiene las reseñas escritas por un usuario. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reviews by Job Offer",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/job-offer/{{jobOfferId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "job-offer", "{{jobOfferId}}"]
+						},
+						"description": "Obtiene las reseñas de una oferta de empleo. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reviews by Service",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/service/{{workerServiceId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "service", "{{workerServiceId}}"]
+						},
+						"description": "Obtiene las reseñas de un servicio. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Average Rating",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/user/{{userId}}/average",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "user", "{{userId}}", "average"]
+						},
+						"description": "Obtiene el rating promedio de un usuario. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Review Count",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/user/{{userId}}/count",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "user", "{{userId}}", "count"]
+						},
+						"description": "Obtiene el número de reseñas de un usuario. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Review by ID",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/{{reviewId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "{{reviewId}}"]
+						},
+						"description": "Obtiene una reseña por ID. Público."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Review for Job Offer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('reviewId', jsonData.id);",
+									"    console.log('Review ID guardado:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"reviewedUserId\": 2,\n    \"jobOfferId\": 1,\n    \"rating\": 5,\n    \"comment\": \"Excelente empleador. El proceso de selección fue muy profesional y la comunicación siempre fue clara y oportuna. Muy recomendado.\",\n    \"reviewType\": \"JOB_OFFER\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews"]
+						},
+						"description": "Crea una reseña para una oferta de empleo/empleador."
+					},
+					"response": []
+				},
+				{
+					"name": "Create Review for Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set('reviewId', jsonData.id);",
+									"    console.log('Review ID guardado:', jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"reviewedUserId\": 1,\n    \"workerServiceId\": 1,\n    \"rating\": 4,\n    \"comment\": \"Muy buen servicio de plomería. Llegó puntual y solucionó el problema rápidamente. Solo le quito una estrella porque el precio final fue un poco mayor al presupuestado.\",\n    \"reviewType\": \"WORKER_SERVICE\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews"]
+						},
+						"description": "Crea una reseña para un servicio de trabajador."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": 5,\n    \"comment\": \"Actualizo mi reseña: Excelente servicio. El trabajador volvió a revisar el trabajo sin costo adicional y quedó perfecto. 5 estrellas merecidas.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/reviews/{{reviewId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "{{reviewId}}"]
+						},
+						"description": "Actualiza una reseña existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/{{reviewId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "{{reviewId}}"]
+						},
+						"description": "Elimina una reseña."
+					},
+					"response": []
+				},
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "health"]
+						},
+						"description": "Verifica el estado del servicio de reseñas."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "7. Health Checks",
+			"description": "Verificación de estado de todos los servicios",
+			"item": [
+				{
+					"name": "API Gateway Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/actuator/health",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["actuator", "health"]
+						},
+						"description": "Estado del API Gateway"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["auth", "health"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "health"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Job Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-offers/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-offers", "health"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Job Applications Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/job-applications/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["job-applications", "health"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Worker Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/worker-services/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["worker-services", "health"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Review Service Health",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reviews/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["reviews", "health"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
