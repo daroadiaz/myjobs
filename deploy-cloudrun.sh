@@ -31,6 +31,9 @@ REGISTRY="us-central1-docker.pkg.dev/${PROJECT_ID}/${REPO}"
 # JWT Secret
 JWT_SECRET="MyJobsSecretKeyForJWTTokenGenerationAndValidation2024SuperSecure"
 
+# Google OAuth 2.0 Client ID (REEMPLAZAR con tu Client ID real)
+GOOGLE_CLIENT_ID="${GOOGLE_CLIENT_ID:-YOUR_GOOGLE_CLIENT_ID_HERE}"
+
 # URL de datasource para Cloud SQL con IP pública
 DATASOURCE_URL="jdbc:mysql://${CLOUD_SQL_IP}:3306/${DB_NAME}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
 
@@ -55,6 +58,7 @@ gcloud run deploy auth-service \
     --set-env-vars "SPRING_DATASOURCE_PASSWORD=${DB_PASS}" \
     --set-env-vars "JWT_SECRET=${JWT_SECRET}" \
     --set-env-vars "JWT_EXPIRATION=86400000" \
+    --set-env-vars "GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}" \
     --memory 512Mi \
     --cpu 1 \
     --min-instances 0 \

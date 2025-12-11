@@ -26,6 +26,15 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
+    /**
+     * Endpoint para autenticación con Google OAuth 2.0 / OpenID Connect
+     * Maneja tanto login como registro con cuenta de Google
+     */
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> authenticateWithGoogle(@Valid @RequestBody GoogleAuthRequest request) {
+        return ResponseEntity.ok(authService.authenticateWithGoogle(request));
+    }
+
     @GetMapping("/validate")
     public ResponseEntity<UserDTO> validateToken(@RequestHeader("Authorization") String authHeader) {
         String token = authHeader.replace("Bearer ", "");

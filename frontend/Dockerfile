@@ -8,7 +8,7 @@ RUN npm install --legacy-peer-deps
 
 # Copiar código fuente y compilar
 COPY . .
-RUN npm run build
+RUN npm run build -- --configuration=production
 
 # Etapa 2: Production con Nginx
 FROM nginx:alpine
@@ -23,8 +23,8 @@ COPY --from=build /app/dist/myjobs-frontend/browser .
 # Copiar configuración personalizada de nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exponer puerto 80
-EXPOSE 80
+# Exponer puerto 8080 (requerido por Cloud Run)
+EXPOSE 8080
 
 # Nginx se ejecuta automáticamente
 CMD ["nginx", "-g", "daemon off;"]

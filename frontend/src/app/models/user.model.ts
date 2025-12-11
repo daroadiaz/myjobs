@@ -41,3 +41,8 @@ export interface AuthResponse {
   type: string;
   user: User;
 }
+
+export interface GoogleAuthRequest {
+  idToken: string;
+  role?: string;
+}

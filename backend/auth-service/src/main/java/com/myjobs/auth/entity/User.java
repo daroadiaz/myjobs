@@ -53,6 +53,12 @@ public class User {
     @Builder.Default
     private boolean emailVerified = false;
 
+    // Campo para identificar usuarios autenticados con Google OAuth
+    private String googleId;
+
+    // URL de la imagen de perfil de Google
+    private String googleProfileImage;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 

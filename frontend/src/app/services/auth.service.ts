@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { User, LoginRequest, RegisterRequest, AuthResponse, Role } from '../models/user.model';
+import { User, LoginRequest, RegisterRequest, AuthResponse, Role, GoogleAuthRequest } from '../models/user.model';
+
+declare const google: any;
 
 @Injectable({
   providedIn: 'root'
@@ -64,5 +66,16 @@ export class AuthService {
   hasRole(role: Role): boolean {
     const user = this.getCurrentUser();
     return user?.role === role;
+  }
+
+  // Google OAuth 2.0 / OpenID Connect
+  authenticateWithGoogle(request: GoogleAuthRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/google`, request).pipe(
+      tap(response => this.handleAuthResponse(response))
+    );
+  }
+
+  getGoogleClientId(): string {
+    return environment.googleClientId;
   }
 }
