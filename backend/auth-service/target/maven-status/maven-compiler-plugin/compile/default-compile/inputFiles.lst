@@ -1,0 +1,14 @@
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/config/SecurityConfig.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/service/GoogleTokenVerifier.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/controller/AuthController.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/dto/AuthResponse.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/repository/UserRepository.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/service/AuthService.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/enums/Role.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/dto/GoogleAuthRequest.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/AuthServiceApplication.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/entity/User.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/service/JwtTokenProvider.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/dto/UserDTO.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/dto/RegisterRequest.java
+/home/da_roadiaz/myjobs/backend/auth-service/src/main/java/com/myjobs/auth/dto/LoginRequest.java
