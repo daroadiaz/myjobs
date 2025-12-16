@@ -69,10 +69,24 @@ public class JobOfferService {
 
     @Transactional
     public JobOfferDTO createJobOffer(JobOfferDTO dto) {
-        UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long employerId = dto.getEmployerId();
+
+        // Si hay usuario autenticado, usar su ID
+        try {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserPrincipal) {
+                employerId = ((UserPrincipal) principal).getId();
+            }
+        } catch (Exception e) {
+            // Sin autenticación, usar el employerId del DTO
+        }
+
+        if (employerId == null) {
+            throw new RuntimeException("Se requiere employerId");
+        }
 
         JobOffer jobOffer = JobOffer.builder()
-                .employerId(principal.getId())
+                .employerId(employerId)
                 .title(dto.getTitle())
                 .description(dto.getDescription())
                 .category(dto.getCategory())

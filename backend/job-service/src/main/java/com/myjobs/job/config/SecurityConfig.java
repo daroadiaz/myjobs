@@ -40,10 +40,27 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/job-offers/health").permitAll()
                         .requestMatchers("/job-applications/health").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/job-offers/**").permitAll()
+                        // Job Offers - GETs públicos
+                        .requestMatchers(HttpMethod.GET, "/job-offers").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/job-offers/search").permitAll()
                         .requestMatchers(HttpMethod.GET, "/job-offers/categories").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/job-offers/category/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/job-offers/employer/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/job-offers/{id}").permitAll()
+                        // Job Applications - GET por ID público
+                        .requestMatchers(HttpMethod.GET, "/job-applications/{id}").permitAll()
+                        // Endpoints autenticados - cualquier usuario con token válido
+                        .requestMatchers(HttpMethod.POST, "/job-offers/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/job-offers/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/job-offers/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/job-offers/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/job-applications/**").authenticated()
+                        .requestMatchers(HttpMethod.PATCH, "/job-applications/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/job-applications/**").authenticated()
+                        // Todo lo demás requiere autenticación
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -54,10 +71,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(false);
+        configuration.setExposedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

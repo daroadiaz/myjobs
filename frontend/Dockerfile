@@ -8,7 +8,8 @@ RUN npm install --legacy-peer-deps
 
 # Copiar código fuente y compilar
 COPY . .
-RUN npm run build -- --configuration=production
+ARG BUILD_CONFIG=docker
+RUN npm run build -- --configuration=${BUILD_CONFIG}
 
 # Etapa 2: Production con Nginx
 FROM nginx:alpine

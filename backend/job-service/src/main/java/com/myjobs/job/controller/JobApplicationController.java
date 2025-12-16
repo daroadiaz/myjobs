@@ -49,7 +49,6 @@ public class JobApplicationController {
     }
 
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasAnyRole('EMPLEADOR', 'MODERADOR')")
     public ResponseEntity<JobApplicationDTO> updateApplicationStatus(
             @PathVariable Long id,
             @RequestBody Map<String, String> statusRequest) {
@@ -57,7 +56,6 @@ public class JobApplicationController {
     }
 
     @PatchMapping("/{id}/notes")
-    @PreAuthorize("hasRole('EMPLEADOR')")
     public ResponseEntity<JobApplicationDTO> addEmployerNotes(
             @PathVariable Long id,
             @RequestBody Map<String, String> notesRequest) {
@@ -65,7 +63,6 @@ public class JobApplicationController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('TRABAJADOR')")
     public ResponseEntity<Map<String, String>> withdrawApplication(@PathVariable Long id) {
         jobApplicationService.withdrawApplication(id);
         return ResponseEntity.ok(Map.of("message", "Postulación retirada exitosamente"));

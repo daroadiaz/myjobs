@@ -33,7 +33,6 @@ public class WorkerServiceController {
     }
 
     @GetMapping("/my-services")
-    @PreAuthorize("hasRole('TRABAJADOR')")
     public ResponseEntity<List<WorkerServiceDTO>> getMyServices() {
         return ResponseEntity.ok(workerServiceService.getMyServices());
     }
@@ -54,26 +53,22 @@ public class WorkerServiceController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('TRABAJADOR')")
     public ResponseEntity<WorkerServiceDTO> createService(@RequestBody WorkerServiceDTO dto) {
         return ResponseEntity.ok(workerServiceService.createService(dto));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRABAJADOR', 'MODERADOR')")
     public ResponseEntity<WorkerServiceDTO> updateService(@PathVariable Long id, @RequestBody WorkerServiceDTO dto) {
         return ResponseEntity.ok(workerServiceService.updateService(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('TRABAJADOR', 'MODERADOR')")
     public ResponseEntity<Map<String, String>> deleteService(@PathVariable Long id) {
         workerServiceService.deleteService(id);
         return ResponseEntity.ok(Map.of("message", "Servicio eliminado exitosamente"));
     }
 
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasAnyRole('TRABAJADOR', 'MODERADOR')")
     public ResponseEntity<WorkerServiceDTO> updateServiceStatus(
             @PathVariable Long id,
             @RequestBody Map<String, String> statusRequest) {

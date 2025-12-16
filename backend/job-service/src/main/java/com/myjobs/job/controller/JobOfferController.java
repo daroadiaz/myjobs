@@ -33,7 +33,6 @@ public class JobOfferController {
     }
 
     @GetMapping("/my-offers")
-    @PreAuthorize("hasRole('EMPLEADOR')")
     public ResponseEntity<List<JobOfferDTO>> getMyJobOffers() {
         return ResponseEntity.ok(jobOfferService.getMyJobOffers());
     }
@@ -54,26 +53,22 @@ public class JobOfferController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('EMPLEADOR')")
     public ResponseEntity<JobOfferDTO> createJobOffer(@RequestBody JobOfferDTO dto) {
         return ResponseEntity.ok(jobOfferService.createJobOffer(dto));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('EMPLEADOR', 'MODERADOR')")
     public ResponseEntity<JobOfferDTO> updateJobOffer(@PathVariable Long id, @RequestBody JobOfferDTO dto) {
         return ResponseEntity.ok(jobOfferService.updateJobOffer(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('EMPLEADOR', 'MODERADOR')")
     public ResponseEntity<Map<String, String>> deleteJobOffer(@PathVariable Long id) {
         jobOfferService.deleteJobOffer(id);
         return ResponseEntity.ok(Map.of("message", "Oferta eliminada exitosamente"));
     }
 
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasAnyRole('EMPLEADOR', 'MODERADOR')")
     public ResponseEntity<JobOfferDTO> updateJobOfferStatus(
             @PathVariable Long id,
             @RequestBody Map<String, String> statusRequest) {
