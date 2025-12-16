@@ -32,7 +32,7 @@ REGISTRY="us-central1-docker.pkg.dev/${PROJECT_ID}/${REPO}"
 JWT_SECRET="MyJobsSecretKeyForJWTTokenGenerationAndValidation2024SuperSecure"
 
 # Google OAuth 2.0 Client ID (REEMPLAZAR con tu Client ID real)
-GOOGLE_CLIENT_ID="${GOOGLE_CLIENT_ID:-YOUR_GOOGLE_CLIENT_ID_HERE}"
+GOOGLE_CLIENT_ID="${GOOGLE_CLIENT_ID:-548610687122-p5njahcsgimaiunu0k0bks30b6pcr403.apps.googleusercontent.com}"
 
 # URL de datasource para Cloud SQL con IP pública
 DATASOURCE_URL="jdbc:mysql://${CLOUD_SQL_IP}:3306/${DB_NAME}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"

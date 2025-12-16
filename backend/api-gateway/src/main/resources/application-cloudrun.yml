@@ -27,37 +27,37 @@ spring:
             maxAge: 3600
       routes:
         - id: auth-service
-          uri: https://auth-service-x6gwhiqdwa-uc.a.run.app
+          uri: https://auth-service-548610687122.us-central1.run.app
           predicates:
             - Path=/api/auth/**
           filters:
             - StripPrefix=1
         - id: user-service
-          uri: https://user-service-x6gwhiqdwa-uc.a.run.app
+          uri: https://user-service-548610687122.us-central1.run.app
           predicates:
             - Path=/api/users/**
           filters:
             - StripPrefix=1
         - id: job-offers-service
-          uri: https://job-service-x6gwhiqdwa-uc.a.run.app
+          uri: https://job-service-548610687122.us-central1.run.app
           predicates:
             - Path=/api/job-offers/**
           filters:
             - StripPrefix=1
         - id: job-applications-service
-          uri: https://job-service-x6gwhiqdwa-uc.a.run.app
+          uri: https://job-service-548610687122.us-central1.run.app
           predicates:
             - Path=/api/job-applications/**
           filters:
             - StripPrefix=1
         - id: worker-service
-          uri: https://worker-service-x6gwhiqdwa-uc.a.run.app
+          uri: https://worker-service-548610687122.us-central1.run.app
           predicates:
             - Path=/api/worker-services/**
           filters:
             - StripPrefix=1
         - id: review-service
-          uri: https://review-service-x6gwhiqdwa-uc.a.run.app
+          uri: https://review-service-548610687122.us-central1.run.app
           predicates:
             - Path=/api/reviews/**
           filters:
