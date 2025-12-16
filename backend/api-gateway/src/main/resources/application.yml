@@ -9,8 +9,14 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOriginPatterns:
-              - "*"
+            allowedOrigins:
+              - "http://localhost:4200"
+              - "http://localhost:80"
+              - "http://localhost"
+              - "http://frontend:80"
+              - "https://frontend-548610687122.us-central1.run.app"
+              - "https://frontend-x6gwhiqdwa-uc.a.run.app"
+              - "https://*.run.app"
             allowedMethods:
               - GET
               - POST
@@ -18,11 +24,11 @@ spring:
               - PATCH
               - DELETE
               - OPTIONS
-            allowedHeaders:
-              - "*"
+            allowedHeaders: "*"
             exposedHeaders:
-              - "*"
-            allowCredentials: true
+              - "Authorization"
+              - "Content-Type"
+            allowCredentials: false
             maxAge: 3600
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE

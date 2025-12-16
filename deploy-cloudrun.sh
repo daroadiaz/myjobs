@@ -344,7 +344,7 @@ sed -i "s|API_GATEWAY_PLACEHOLDER|${API_GATEWAY_URL}|g" /home/da_roadiaz/myjobs/
 
 # Crear Dockerfile para Cloud Run
 cat > /home/da_roadiaz/myjobs/frontend/Dockerfile.cloudrun << 'DOCKEREOF'
-FROM node:20-alpine AS build
+FROM node:22-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
